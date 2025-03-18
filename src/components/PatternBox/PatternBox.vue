@@ -1,8 +1,11 @@
 <template>
   <q-input
+    ref="patternInput"
     v-model="cpPattern"
-    :label="label"
+    @blur="validatePattern"
+    @input="validatePattern"
     :error="!isValidPattern"
+    :label="label"
     placeholder="..."
     type="text"
     square
@@ -11,6 +14,7 @@
     filled
     required
     hide-bottom-space
+    autofocus
   >
     <template v-slot:prepend>
       <SimpleIcon
@@ -50,6 +54,8 @@ import { Emits } from 'components/PatternBox/types/Emits';
 import SimpleIcon from 'components/shared/SimpleIcon.vue';
 import { RE2JS } from 're2js';
 import type { ExtendedRE2JS } from 'components/PatternBox/types/ExtendedRE2JS';
+import { QInput } from 'quasar';
+import { ValidationErrors } from 'components/PatternBox/types/ValidationErrors';
 
 // region general variables
 const props = defineProps({
@@ -70,6 +76,7 @@ const props = defineProps({
 
 const emit = defineEmits([Emits.UPDATE, Emits.UPDATE_FLAGS, Emits.UPDATE_RAW]);
 
+const patternInput = ref<QInput | null>(null);
 const isMultiline = ref(props.flags ? props.flags.indexOf(Flags.MULTILINE) > -1 : false);
 const isCaseInsensitive = ref(
   props.flags ? props.flags.indexOf(Flags.CASE_INSENSITIVE) > -1 : false,
@@ -93,12 +100,31 @@ const regExpFlags = computed(() => {
     re2Flags |= RE2JS.CASE_INSENSITIVE;
   }
 
-  // i kept the old emit to avoid breaking changes for existing parents.
-  // My implementation doesnt use it anymore.
+  // i kept the emit to avoid breaking changes for 'older' existing parents.
+  // My implementation doesnt use it at the moment.
   emit(Emits.UPDATE_FLAGS, flags);
 
   return { regEx: flags, re2: re2Flags };
 });
+
+// endregion
+// region validation
+function validatePattern() {
+  if (!patternInput.value) return;
+
+  try {
+    // i kept the try/catch blocks in case the external dependencies throw an error (probably can be removed)
+    generatePattern(cpPattern.value || '');
+    isValidPattern.value = true;
+    patternInput.value.getNativeElement().setCustomValidity(ValidationErrors.NONE);
+  } catch (err) {
+    console.error(err);
+    isValidPattern.value = false;
+    patternInput.value.getNativeElement().setCustomValidity(ValidationErrors.PATTERN_INVALID);
+  }
+
+  patternInput.value.getNativeElement().reportValidity();
+}
 
 // endregion
 
@@ -109,21 +135,14 @@ function updateRaw() {
       Emits.UPDATE_RAW,
       cpPattern.value ? generatePattern(cpPattern.value, regExpFlags.value) : '',
     );
-    isValidPattern.value = true;
   } catch (err) {
     console.error(err);
-    isValidPattern.value = false;
   }
 }
 
 function update(value: string | undefined) {
-  try {
-    generatePattern(value ?? '');
-    isValidPattern.value = true;
-  } catch (err) {
-    console.error(err);
-    isValidPattern.value = false;
-  }
+  cpPattern.value = value;
+  validatePattern();
   emit(Emits.UPDATE, value);
 }
 

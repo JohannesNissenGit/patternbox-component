@@ -53,7 +53,6 @@ const rawPattern = ref<string>('');
 const pattern = ref('');
 
 function validateInput(): void {
-  // TODO: refactor this with native html5 validation
   if (userInput.value === '') {
     return;
   }
