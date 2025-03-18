@@ -14,7 +14,7 @@ const props = defineProps<{
 }>();
 
 const imageUrl = computed(
-  () => new URL(`/src/assets/icons/${props.name}.svg`, import.meta.url).href,
+  () => new URL(`./icons/${props.name}.svg`, import.meta.url).href,
 );
 </script>
 <style scoped>

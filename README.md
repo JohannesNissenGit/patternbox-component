@@ -1,21 +1,25 @@
-# Enginesight
+# Enginsight
 
-This is a simple project to implement the challenge proposed by you :)
+#### This is a simple project to implement the challenge proposed by you :)
 
-Since there was no Icon component (now renamed to SimpleIcon) provided. So i reimagined it as a simple dynamic 
+#### I built a little app around the PatternBox, so you can pull the code, install deps and run it.
+
+#### If you want to extract the box to a different project, it might be easiest to copy the directory 'PatternBox' with all including files.
+
+### Notes:
+
+I implemented the native html5 validation for PatternBox and additionally used the quasar 
+input validation for the component InputBox.
+
+There was no Icon component (now renamed to SimpleIcon) provided. So i reimagined it as a simple dynamic
 component, which receives name and size as props and renders an image based on them.
 
-The underlying scaffolding is based on Quasar v2 with Vite.
-
-Enjoy!
 
 Best regards,
 Johannes
 
 ## Install the dependencies
 ```bash
-yarn
-# or
 npm install
 ```
 

@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import SimpleIcon from 'components/shared/SimpleIcon.vue';
+import SimpleIcon from 'components/PatternBox/shared/SimpleIcon/SimpleIcon.vue';
 import { RE2JS } from 're2js';
 
 const props = defineProps({

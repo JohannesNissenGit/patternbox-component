@@ -49,13 +49,13 @@
 
 <script setup lang="ts">
 import { computed, ref, toRaw, watch } from 'vue';
-import { Flags } from 'components/PatternBox/types/Flags';
-import { Emits } from 'components/PatternBox/types/Emits';
-import SimpleIcon from 'components/shared/SimpleIcon.vue';
+import { Flags } from './types/Flags';
+import { Emits } from './types/Emits';
+import SimpleIcon from './shared/SimpleIcon/SimpleIcon.vue';
 import { RE2JS } from 're2js';
-import type { ExtendedRE2JS } from 'components/PatternBox/types/ExtendedRE2JS';
+import type { ExtendedRE2JS } from './types/ExtendedRE2JS';
 import { QInput } from 'quasar';
-import { ValidationErrors } from 'components/PatternBox/types/ValidationErrors';
+import { ValidationErrors } from './types/ValidationErrors';
 
 // region general variables
 const props = defineProps({
@@ -113,7 +113,7 @@ function validatePattern() {
   if (!patternInput.value) return;
 
   try {
-    // i kept the try/catch blocks in case the external dependencies throw an error (probably can be removed)
+    // i kept the try/catch blocks in case the library throws an error
     generatePattern(cpPattern.value || '');
     isValidPattern.value = true;
     patternInput.value.getNativeElement().setCustomValidity(ValidationErrors.NONE);
@@ -166,6 +166,14 @@ watch([cpPattern, isCaseInsensitive, isMultiline, () => props.isUsingRe2Engine],
 
 <style scoped lang="scss">
 :deep(input) {
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: -0.75px;
+}
+
+// The following lines are duplicates from the app.scss file and might be unnecessary.
+// I just put them here so they dont get lost when the PatternBox folder is extracted to another project.
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+.font-source-code-pro {
   font-family: 'Source Code Pro', monospace;
   letter-spacing: -0.75px;
 }

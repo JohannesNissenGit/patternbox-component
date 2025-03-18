@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import PatternBox from 'components/PatternBox/PatternBox.vue';
 import { ref, watch } from 'vue';
-import SimpleIcon from 'components/shared/SimpleIcon.vue';
+import SimpleIcon from 'components/PatternBox/shared/SimpleIcon/SimpleIcon.vue';
 import InputBox from 'components/InputBox/InputBox.vue';
 import { Flags } from 'components/PatternBox/types/Flags';
 
