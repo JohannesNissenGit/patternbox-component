@@ -1,6 +1,6 @@
 <template>
   <q-page class="column items-center justify-center font-source-code-pro">
-    <q-card class="q-ma-md q-pa-lg q-gutter-sm">
+    <q-card class="q-ma-md q-pa-lg q-gutter-sm validation-card" >
       <p>Please enter your desired pattern:</p>
       <PatternBox
         :is-using-re2-engine="isUsingRe2Engine"
@@ -28,7 +28,7 @@
       </InputBox>
       <q-banner class="font-source-code-pro">
         <span v-if="isValidMatch && userInput.length > 0" class="text-positive"
-          >Congrats! Valid :)</span
+        >Congrats! Valid :)</span
         >
         <span v-if="!pattern" class="text-warning">Please provide pattern first.</span>
       </q-banner>
@@ -78,4 +78,8 @@ watch(rawPattern, () => {
 </script>
 <style scoped>
 @import 'src/css/app.scss';
+
+.validation-card {
+  min-width: 350px;
+}
 </style>
