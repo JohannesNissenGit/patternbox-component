@@ -1,1 +1,7 @@
 // app global css in SCSS form
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+.font-source-code-pro {
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: -0.75px;
+}
